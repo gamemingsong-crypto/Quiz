@@ -132,7 +132,7 @@ client.once('ready', async () => {
   await registerCommands();
   // ตั้งสถานะตรงนี้เลย!
     client.user.setActivity('เกมส์ตอบคำถาม | /question', { 
-        type: ActivityType.Listening // หรือใช้ Playing, Watching, Competing ตามใจชอบ
+        type: ActivityType.Competing // หรือใช้ Playing, Watching, Competing ตามใจชอบ
     });
     
 });
