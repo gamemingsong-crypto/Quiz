@@ -129,7 +129,7 @@ client.once('ready', async () => {
   console.log(`🤖 Bot พร้อมแล้ว: ${client.user.tag}`);
   await registerCommands();
   // ตั้งสถานะตรงนี้เลย!
-    client.user.setActivity('ตอบให้ถูกสิ? | /question', { 
+    client.user.setActivity('เกมส์ตอบคำถาม | /question', { 
         type: ActivityType.Listening // หรือใช้ Playing, Watching, Competing ตามใจชอบ
     });
     
