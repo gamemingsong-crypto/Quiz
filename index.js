@@ -156,7 +156,7 @@ client.on('interactionCreate', async (interaction) => {
     // ส่ง embed คำถาม + ปุ่มตอบ
     const embed = buildQuestionEmbed(question);
     const row = buildAnswerButton();
-    const msg = await channel.send({ embeds: [embed], components: [row] });
+    const msg = await channel.send({ content: '@everyone', embeds: [embed], components: [row] });
 
     quizSessions.set(channel.id, {
       question,
