@@ -1,0 +1,17 @@
+{
+  "name": "discord-quiz-bot",
+  "version": "1.0.0",
+  "description": "Discord Quiz Bot with button-based answering system",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.15.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
