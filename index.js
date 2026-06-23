@@ -10,7 +10,7 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log(`Web server listening on port ${port}`);
 });
-const { Client, GatewayIntentBits, PermissionFlagsBits, ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, SlashCommandBuilder, REST, Routes } = require('discord.js');
+const { Client, GatewayIntentBits, PermissionFlagsBits, ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, SlashCommandBuilder, REST, Routes, ActivityType } = require('discord.js');
 
 const client = new Client({
   intents: [
