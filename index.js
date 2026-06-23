@@ -26,27 +26,30 @@ const client = new Client({
 const quizSessions = new Map();
 
 // ==================== REGISTER SLASH COMMANDS ====================
+// แก้ไข registerCommands ให้เป็นแบบนี้ครับ
 async function registerCommands() {
-  const commands = [
-    new SlashCommandBuilder()
-      .setName('question')
-      .setDescription('โพสต์คำถามสำหรับ Quiz (Admin เท่านั้น)')
-      .addStringOption(opt =>
-        opt.setName('text')
-          .setDescription('คำถามที่ต้องการถาม')
-          .setRequired(true)
-      )
-      .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
-      .toJSON(),
+    const commands = [
+        new SlashCommandBuilder()
+            .setName('question')
+            .setDescription('โพสต์คำถามสำหรับ Quiz')
+            .addStringOption(opt =>
+                opt.setName('text')
+                    .setDescription('คำถามที่ต้องการถาม')
+                    .setRequired(true)
+            )
+            // ลบบรรทัด .setDefaultMemberPermissions(...) ออกไปเลยครับ!
+            .toJSON(),
 
-    new SlashCommandBuilder()
-      .setName('endquiz')
-      .setDescription('จบ Quiz ในห้องนี้ (Admin เท่านั้น)')
-      .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
-      .toJSON(),
-  ];
+        new SlashCommandBuilder()
+            .setName('endquiz')
+            .setDescription('จบ Quiz ในห้องนี้')
+            // ลบบรรทัด .setDefaultMemberPermissions(...) ออกไปเลยครับ!
+            .toJSON(),
+    ];
 
-  const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
+    const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
+    // ... ส่วนที่เหลือของ rest ...
+}
   try {
     await rest.put(Routes.applicationCommands(process.env.CLIENT_ID), { body: commands });
     console.log('✅ Slash commands registered');
@@ -138,8 +141,20 @@ client.once('ready', async () => {
 // ==================== EVENT: SLASH COMMANDS ====================
 client.on('interactionCreate', async (interaction) => {
 
-  // ── /question ──────────────────────────────────────────────────
-  if (interaction.isChatInputCommand() && interaction.commandName === 'question') {
+// ── /question ──────────────────────────────────────────────────
+if (interaction.isChatInputCommand() && interaction.commandName === 'question') {
+    
+    // --- เพิ่มการเช็คสิทธิ์ตรงนี้ ---
+    const adminRoleId = '1508699693486575707'; // <--- ใส่ ID โรล Admin ของคุณ
+    const isOwner = interaction.member.id === interaction.guild.ownerId; // เช็คว่าเป็นเจ้าของมั้ย
+    const hasAdminRole = interaction.member.roles.cache.has(adminRoleId); // เช็คว่ามีโรล Admin มั้ย
+
+    // ถ้าไม่ใช่เจ้าของ และไม่มีโรล Admin -> ให้เด้งออก
+    if (!isOwner && !hasAdminRole) {
+        return interaction.reply({ content: '🚫 คุณไม่มีสิทธิ์ใช้งานคำสั่งนี้!', ephemeral: true });
+    }
+    // ----------------------------
+
     const channel = interaction.channel;
     const question = interaction.options.getString('text');
 
